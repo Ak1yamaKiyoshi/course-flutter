@@ -1,69 +1,46 @@
+import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp( Calculator() );
-
+  runApp(MyApp());
 }
 
-class Calculator extends StatefulWidget {
-  const Calculator({super.key});
-
-  @override
-  State<Calculator> createState() => _CalculatorState();
-}
-
-class _CalculatorState extends State<Calculator> {
-  var buttons = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "*", "/", "-", "+"];
-  var txt = TextEditingController();
-
-  List <TextButton> _generateButttons() {
-    List <TextButton>  output = [];
-    buttons.forEach((element) {
-      output.add(
-        TextButton(
-          onPressed: () => {},
-          child: Text(element),
-          style: TextButton.styleFrom(
-            side: BorderSide(width: 3.0),
-          ),
-        )
-      );
-    });
-    return output;
-  }
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        body: 
-          Row(children: [
-            
-            SizedBox(
-              height: 300.0,
-              
-              child: TextField(
-                controller: txt,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: "Expression",
-                ),
-              ),
-            ),
-            
-            GridView.count(
-                padding: const EdgeInsets.all(20),
-                crossAxisSpacing: 10,
-                mainAxisSpacing: 10,
-                crossAxisCount: 4,
-              children: [
-                ..._generateButttons()
-              ],
-            ),
-          ],
-        ), 
+    return ChangeNotifierProvider(
+      create: (context) => MyAppState(),
+      child: MaterialApp(
+        title: 'Namer App',
+        theme: ThemeData(
+          useMaterial3: true,
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepOrange),
+        ),
+        home: MyHomePage(),
       ),
+    );
+  }
+}
 
+class MyAppState extends ChangeNotifier {
+  var current = WordPair.random();
+}
+
+class MyHomePage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    var appState = context.watch<MyAppState>();
+
+    return Scaffold(
+      body: Column(
+        children: [
+          Text('A random idea:'),
+          Text(appState.current.asLowerCase),
+        ],
+      ),
     );
   }
 }
