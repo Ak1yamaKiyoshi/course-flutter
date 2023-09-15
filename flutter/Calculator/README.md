@@ -4,3 +4,4 @@ Simple flutter calculator app that supports such operations as: * / - +
 Techonlogies used: 
  - Flutter
  - Flutter bloc
+[demo](https://github.com/Ak1yamaKiyoshi/course-dart-flutter/blob/main/flutter/Calculator/calculator%20demo.gif)
