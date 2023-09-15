@@ -13,7 +13,6 @@ class Calculator extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-
         color: styling.colorBase,
       child: Column(
         children: [
@@ -35,6 +34,18 @@ class Calculator extends StatelessWidget {
           ),
         ],
       ),
+      ),
+      bottomNavigationBar: Container(
+        padding: EdgeInsets.all(12),
+        height: 50.0,
+        color: styling.colorBase,
+        child: const Text('by Akiyama Kiyoshi',
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            color: styling.wine,
+            fontSize: styling.textFontSizeSmall,
+          ),
+        ),
       ),
     );
   }
