@@ -1,0 +1,28 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hello_world/config/theme/app_themes.dart';
+import 'package:hello_world/feature/app/presentation/Calculator/Calculator.dart';
+import './feature/app/data/calulator_expression_cubit.dart';
+
+
+void main() {
+  runApp(const CalculatorApp());
+}
+
+
+class CalculatorApp extends StatelessWidget {
+  const CalculatorApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+
+    return MaterialApp (
+      title: 'Calculator by Akiyama',
+      theme: theme(),
+      home: BlocProvider<CaluclatorExpressionCubit>(
+        create: (context) => CaluclatorExpressionCubit(),
+        child: Calculator(),
+      ),
+    );
+  }
+}
