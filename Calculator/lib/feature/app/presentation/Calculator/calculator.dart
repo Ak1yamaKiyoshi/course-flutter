@@ -1,52 +1,95 @@
 
+import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hello_world/feature/app/domain/theme_cubit.dart';
+import 'package:hello_world/feature/app/presentation/CalculatorButton/CalculatorThemeChanger/calculator_theme_changer.dart';
 import 'package:hello_world/feature/app/presentation/calculator_input.dart';
 import 'package:hello_world/feature/app/presentation/calculator_pad.dart';
 import '../calculator_answer.dart';
-import 'package:hello_world/feature/app/data/styling.dart' as styling;
+import 'package:hello_world/feature/app/domain/styling.dart' as styling;
 
-class Calculator extends StatelessWidget {
-  const Calculator({super.key});
+class CalculatoBodyConatiner extends StatelessWidget {
+  final children;
+  const CalculatoBodyConatiner(this.children);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        color: styling.colorBase,
-      child: Column(
-        children: [
-          AppBar(
-            backgroundColor: styling.colorBase,
-          ),
-          SizedBox(
-            width: MediaQuery.of(context).size.width,
-            height: (MediaQuery.of(context).size.height/100)*90,
-            child: Container(
-              margin: const EdgeInsets.only(left: 20.0, right: 20.0),
-              child: Column(
-                children: [
-                  CalculatorInput(),
-                  CalculatorPad(),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-      ),
-      bottomNavigationBar: Container(
-        padding: EdgeInsets.all(12),
-        height: 50.0,
-        color: styling.colorBase,
-        child: const Text('by Akiyama Kiyoshi',
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            color: styling.wine,
-            fontSize: styling.textFontSizeSmall,
-          ),
+    return  Expanded(
+      child: Container(
+        margin: const EdgeInsets.only(left: 20.0, right: 20.0),
+        child: Column(
+          children: children
         ),
       ),
     );
+  }
+}
+
+class Calculator extends StatefulWidget {
+  const Calculator({super.key});
+
+  @override
+  State<StatefulWidget> createState() => _CalculatorState();
+}
+
+class _CalculatorState extends State<Calculator> {
+  @override
+  Widget build(BuildContext context) {
+    return BlocConsumer<ThemeCubit, ThemeState>(
+        builder: (context, state) {
+          return Scaffold(
+            body: Container(
+              color: state.main,
+              child: Column(
+                children: [
+                  AppBar(
+                    backgroundColor: state.main,
+                  ),
+                  CalculatoBodyConatiner(
+                    [
+                      CalculatorInput(),
+                      CalculatorPad(
+                        main: state.main,
+                        secondary: state.secondary,
+                        accent: state.accent,
+                        text: state.text,
+                        borderRadius: state.borderRadius,
+                        borderWidth: state.borderWidth,
+                        buttonBlur: state.buttonBlur,
+                      )
+                    ],
+                  ),
+                  ExpandablePanel(
+                    header: Text("Open settings"),
+                    collapsed: Text("open"),
+                    expanded: CalculatorThemeChanger(),
+                    //tapHea: true,
+                  ) ,
+
+                ],
+              ),
+            ),
+            bottomNavigationBar: Container(
+              padding: EdgeInsets.all(12),
+              height: 50.0,
+              color: state.main,
+              child: const Text('by Akiyama Kiyoshi',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: styling.originMain,
+                  fontSize: styling.textFontSizeSmall,
+                ),
+              ),
+            ),
+          );
+        },
+        listener: (context, state) {
+          setState(() { });
+        }
+    );
+
+
   }
 }

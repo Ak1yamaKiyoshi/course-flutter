@@ -1,4 +1,4 @@
-part of 'calulator_expression_cubit.dart';
+part of 'expression_cubit.dart';
 
 class CaluclatorExpressionState {
   String expression = "";

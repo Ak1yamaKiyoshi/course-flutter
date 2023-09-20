@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:hello_world/feature/app/domain/styling.dart' as styling;
 
-class CalculatorAnswer extends StatelessWidget {
-  final text;
-  const CalculatorAnswer({super.key, required this.text});
+class CalculatorExpression extends StatelessWidget {
+  final String text;
+  const CalculatorExpression({super.key, required this.text});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: 50,
       width: (MediaQuery.of(context).size.width/100)*80,
       child: Text(text,
         textAlign: TextAlign.right,
-        style: TextStyle(fontSize: styling.textFontSizeMedium),
+        style: const TextStyle(fontSize: styling.textFontSizeMedium),
       ),
     );
   }
