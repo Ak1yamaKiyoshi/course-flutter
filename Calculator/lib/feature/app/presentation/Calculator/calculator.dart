@@ -53,11 +53,13 @@ class _CalculatorState extends State<Calculator> {
                       CalculatorPad(theme: state.theme)
                     ],
                   ),
+              Container(color: state.theme["main"],
+                  child:
                   ExpandablePanel(
                     collapsed: const Text(""),
-                    header: const Text("settings"),
+                    header:   Text("settings", textAlign: TextAlign.center,),
                     expanded: CalculatorThemeChanger(),
-                  ) ,
+                  ) ,),
                 ],
               ),
             ),

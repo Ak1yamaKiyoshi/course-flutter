@@ -11,7 +11,9 @@ import 'package:hello_world/feature/app/domain/styling.dart' as styling;
 
 
 class CalculatorInput extends StatefulWidget {
-  const CalculatorInput({super.key});
+  final Map theme;
+  const CalculatorInput({super.key,
+  this.theme=styling.theme});
 
   @override
   State<CalculatorInput> createState() => _CalculatorInputState();
@@ -32,10 +34,12 @@ class _CalculatorInputState extends State<CalculatorInput> {
             return Column(
               children: [
                 CalculatorExpression(
-                    text: state.expression
+                    text: state.expression,
+                    theme: widget.theme
                 ),
                 CalculatorAnswer(
                   text: state.solvedExpression,
+                  theme: widget.theme
                 ),
               ],
             );

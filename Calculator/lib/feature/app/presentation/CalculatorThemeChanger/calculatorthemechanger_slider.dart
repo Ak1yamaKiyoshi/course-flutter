@@ -54,7 +54,6 @@ class CalculatorThemeChangerSliderText extends StatelessWidget {
         ),
     );
   }
-
 }
 
 

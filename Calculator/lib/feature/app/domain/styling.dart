@@ -4,15 +4,15 @@ import 'package:flutter/material.dart';
 /* - - - - - - - - - - - - - - - - - - - - */
 
 const Color originMain =      Color(0xffc7c7c7);
-const Color originSecondary = Color(0xff303030);
+const Color originSecondary = Color(0x00f0f0f0);//Color(0xff303030);
 const Color originAccent =    Color(0xff8f7ca7);
 const Color originText =      Color(0xff605454);
 
 const Color effectOutHighlight = Color.fromRGBO(255, 255, 255, 0.5);
 const Color effectOutShadow = Color.fromRGBO(1, 0, 18, 0.5);
 
-const double fontSizeInputSmall = 54.0;
-const double fontSizeInputNormal = 78.0;
+const double fontSizeInputSmall = 40.0;
+const double fontSizeInputNormal = 50.0;
 const double fontSizeButtonSmall = 64.0;
 const double fontSizeButtonNormal = 78.0;
 const double fontSizeSliderTextNormal = 25.0;

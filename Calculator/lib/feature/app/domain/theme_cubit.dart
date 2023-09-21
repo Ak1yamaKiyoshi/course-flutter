@@ -37,4 +37,14 @@ class ThemeCubit extends Cubit<ThemeState> {
     )
   );
 
+  void updateAdditional(value) => emit(
+      ThemeState(
+          theme: state.theme = setThemeParameter(
+              state.theme,
+              "additional",
+              value
+          )
+      )
+  );
+
 }

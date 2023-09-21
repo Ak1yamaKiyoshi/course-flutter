@@ -51,7 +51,7 @@ class CalculatorPad extends StatelessWidget {
   List<Widget> generateCalculatorButtons(context, state, globaltheme) {
     List<Widget> buttons = [];
     final List<String> additionalLabels = [..."()^√!".split(""), "tan", "cos", "sin"];
-    final List<String> labels = [ ..."C%⌫÷789×456-123+".split(""), "00", "0", ",", "="];
+    final List<String> labels = [ ..."C%⌫÷789×456-123+".split(""), "00", "0", ".", "="];
 
     if (globaltheme["additional"]) {
       additionalLabels.forEach((label) {
@@ -84,11 +84,12 @@ class CalculatorPad extends StatelessWidget {
   }
 
 
-
   Widget build(BuildContext context) {
     return BlocBuilder<CaluclatorExpressionCubit, CaluclatorExpressionState>(
         builder: (context, state) {
-          return Expanded(
+          return SizedBox(
+            height: (MediaQuery.of(context).size.height),
+            width: ((MediaQuery.of(context).size.height/100)*43)%(MediaQuery.of(context).size.height/100*80),
             child: GridView.count(
               childAspectRatio: theme["grid-ratio"],
               crossAxisCount: 4,

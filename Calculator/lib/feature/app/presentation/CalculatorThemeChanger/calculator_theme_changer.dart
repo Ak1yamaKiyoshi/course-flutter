@@ -6,6 +6,31 @@ import 'package:hello_world/feature/app/domain/styling.dart' as styling;
 import 'calculatorthemechanger_switch.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
+class CalculatorThemeChangerSliderText extends StatelessWidget {
+  final String label;
+  final Color text;
+
+  const CalculatorThemeChangerSliderText({
+    super.key,
+    required this.label,
+    this.text = styling.originText,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      label,
+      textAlign: TextAlign.center,
+      style: TextStyle(
+          color: text,
+          fontSize: styling.fontSizeSliderTextNormal
+      ),
+    );
+  }
+}
+
+
+
 class CalculatorThemeChanger extends StatefulWidget {
   @override
   State<CalculatorThemeChanger> createState() => _CalculatorThemeChangerState();
@@ -21,12 +46,12 @@ class _CalculatorThemeChangerState extends State<CalculatorThemeChanger>   {
       builder: (context, state) {
         return SizedBox(
           height: MediaQuery.of(context).size.height/3,
-          child: GridView.count(
-            childAspectRatio: (100/100),
-            crossAxisCount: 1,
-            crossAxisSpacing: 0,
-            mainAxisSpacing: 0,
+          child: Container(
+            color: state.theme["main"],
+          margin: EdgeInsets.all(10.0),
+          child: ListView(
             children: [
+              Text("! У поточній версії калькулятору всі зміни теми, які ви робите, не зберігаються після його запуску. "),
               CalculatorThemeChangerSlider(
                   onChangeCallback: (value) {
                     BlocProvider.of<ThemeCubit>(context).updateTheme("border-radius", value);
@@ -84,24 +109,37 @@ class _CalculatorThemeChangerState extends State<CalculatorThemeChanger>   {
                 label: 'neumorphism',
                 valueToSwitch: (state.theme["neumorphism"] && true),
               ),
+              CalculatorThemeChangerSwitch(
+                onChangeCallback: BlocProvider.of<ThemeCubit>(context).updateAdditional,
+                label: 'additional ( функції звідси ще не працюють )',
+                valueToSwitch: (state.theme["additional"] && true),
+              ),
+              Divider(height: 20,),
+              CalculatorThemeChangerSliderText(text: state.theme["text"], label: " main color "),
               ColorPicker(
                 pickerColor: state.theme["main"], //default color
                 onColorChanged: (Color color){ //on color picked
                   BlocProvider.of<ThemeCubit>(context).updateTheme("main", color);
                 },
               ),
+              Divider(height: 20,),
+              CalculatorThemeChangerSliderText(text: state.theme["text"], label: " secondary ( border ) color "),
               ColorPicker(
                 pickerColor: state.theme["secondary"], //default color
                 onColorChanged: (Color color){ //on color picked
                   BlocProvider.of<ThemeCubit>(context).updateTheme("secondary", color);
                 },
               ),
+              Divider(height: 20,),
+              CalculatorThemeChangerSliderText(text: state.theme["text"], label: " text color "),
               ColorPicker(
                 pickerColor: state.theme["text"], //default color
                 onColorChanged: (Color color){ //on color picked
                   BlocProvider.of<ThemeCubit>(context).updateTheme("text", color);
                 },
               ),
+              Divider(height: 20,),
+              CalculatorThemeChangerSliderText(text: state.theme["text"], label: " accent color "),
               ColorPicker(
                 pickerColor: state.theme["accent"], //default color
                 onColorChanged: (Color color){ //on color picked
@@ -110,6 +148,7 @@ class _CalculatorThemeChangerState extends State<CalculatorThemeChanger>   {
               ),
             ]
           ),
+        ),
         );
       },
       listener: (context, state) {},
