@@ -27,6 +27,22 @@ const double gridYAxisSpacing = 20;
 
 const double gridAspectRatio = (100/100);
 
+const theme = {
+    "main": originMain,
+    "secondary": originSecondary,
+    "accent": originAccent,
+    "text": originText,
+    "border-width": borderWidth,
+    "border-radius": borderRadius,
+    "neumorphism": true,
+    "autumn": false,
+    "additional":false,
+    "grid-ratio": gridAspectRatio,
+    "grid-horizontal-spacing": gridXAxisSpacing,
+    "grid-vertical-spacing": gridYAxisSpacing,
+    "button-blur": buttonBlur,
+};
+
 
 List<BoxShadow> calculatorEffectOut = [
     const BoxShadow(

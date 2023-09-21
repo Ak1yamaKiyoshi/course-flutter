@@ -4,7 +4,7 @@ import 'package:hello_world/feature/app/domain/styling.dart' as styling;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hello_world/feature/app/domain/theme_cubit.dart';
-import './calculatorthemechanger_slider.dart';
+import 'calculatorthemechanger_slider.dart';
 
 
 class CalculatorThemeChangerSwitch extends StatefulWidget {

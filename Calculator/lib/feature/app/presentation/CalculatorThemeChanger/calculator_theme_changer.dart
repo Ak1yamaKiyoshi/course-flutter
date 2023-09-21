@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hello_world/feature/app/domain/theme_cubit.dart';
-import './calculatorthemechanger_slider.dart';
+import 'calculatorthemechanger_slider.dart';
 import 'package:hello_world/feature/app/domain/styling.dart' as styling;
-import './calculatorthemechanger_switch.dart';
+import 'calculatorthemechanger_switch.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
 class CalculatorThemeChanger extends StatefulWidget {
@@ -29,86 +29,83 @@ class _CalculatorThemeChangerState extends State<CalculatorThemeChanger>   {
             children: [
               CalculatorThemeChangerSlider(
                   onChangeCallback: (value) {
-                    BlocProvider.of<ThemeCubit>(context).updateBorderRadius(value);
+                    BlocProvider.of<ThemeCubit>(context).updateTheme("border-radius", value);
                   },
                   label: "border radius",
-                  currentSliderValue: state.borderRadius,
-                  minSliderValue: 0,
-                  maxSliderValue: 50,
+                  currentSliderValue: state.theme["border-radius"],
+                  minSliderValue: 0, maxSliderValue: 50,
               ),
               CalculatorThemeChangerSlider(
                 onChangeCallback: (value) {
-                  BlocProvider.of<ThemeCubit>(context).updateBorderWidth(value);
+                  BlocProvider.of<ThemeCubit>(context).updateTheme("border-width", value);
                 },
                 label: "border width",
-                currentSliderValue: state.borderWidth,
-                minSliderValue: 0,
-                maxSliderValue: 20,
+                currentSliderValue: state.theme["border-width"],
+                minSliderValue: 0, maxSliderValue: 20,
               ),
               CalculatorThemeChangerSlider(
                 onChangeCallback: (value) {
-                  BlocProvider.of<ThemeCubit>(context).updateButtonBlur(value);
+                  BlocProvider.of<ThemeCubit>(context).updateTheme("button-blur", value/30);
                 },
-                label: "border blur",
-                currentSliderValue: state.buttonBlur,
-                minSliderValue: 0,
-                maxSliderValue: 3,
+                label: "button blur",
+                currentSliderValue: state.theme["button-blur"]*30,
+                minSliderValue: 0, maxSliderValue: 30,
               ),
               CalculatorThemeChangerSlider(
                 onChangeCallback: (value) {
-                  BlocProvider.of<ThemeCubit>(context).updateGridXSpacing(value);
+                  BlocProvider.of<ThemeCubit>(context).updateTheme("grid-horizontal-spacing", value);
                 },
-                label: "x spacing ",
-                currentSliderValue: state.gridXAxisSpacing,
-                minSliderValue: 0,
-                maxSliderValue: 150,
+                label: "grid x spacing ",
+                currentSliderValue: state.theme["grid-horizontal-spacing"],
+                minSliderValue: 0, maxSliderValue: 150,
               ),
               CalculatorThemeChangerSlider(
                 onChangeCallback: (value) {
-                  BlocProvider.of<ThemeCubit>(context).updateGridYSpacing(value);
+                  BlocProvider.of<ThemeCubit>(context).updateTheme("grid-vertical-spacing", value);
                 },
                 label: "y spacing",
-                currentSliderValue: state.gridYAxisSpacing,
-                minSliderValue: 0,
-                maxSliderValue: 150,
+                currentSliderValue: state.theme["grid-vertical-spacing"],
+                minSliderValue: 0, maxSliderValue: 150,
               ),
               CalculatorThemeChangerSlider(
                 onChangeCallback: (value) {
-                  if (value != 0)
-                    BlocProvider.of<ThemeCubit>(context).updateGridRatio(value/100);
+                  if (value != 0) {
+                    BlocProvider.of<ThemeCubit>(context).updateTheme(
+                        "grid-ratio", value / 100);
+                    }
                 },
-                label: "ratio",
-                currentSliderValue: state.gridRratio*100,
+                label: "button ratio",
+                currentSliderValue: state.theme["grid-ratio"]*100,
                 minSliderValue: 0,
                 maxSliderValue: 200,
               ),
               CalculatorThemeChangerSwitch(
                 onChangeCallback: BlocProvider.of<ThemeCubit>(context).updateNeumorphism,
                 label: 'neumorphism',
-                valueToSwitch: state.isNeumorphismTheme,
+                valueToSwitch: (state.theme["neumorphism"] && true),
               ),
               ColorPicker(
-                pickerColor: state.main, //default color
+                pickerColor: state.theme["main"], //default color
                 onColorChanged: (Color color){ //on color picked
-                  BlocProvider.of<ThemeCubit>(context).updateMain(color);
+                  BlocProvider.of<ThemeCubit>(context).updateTheme("main", color);
                 },
               ),
               ColorPicker(
-                pickerColor: state.secondary, //default color
+                pickerColor: state.theme["secondary"], //default color
                 onColorChanged: (Color color){ //on color picked
-                  BlocProvider.of<ThemeCubit>(context).updateSecondary(color);
+                  BlocProvider.of<ThemeCubit>(context).updateTheme("secondary", color);
                 },
               ),
               ColorPicker(
-                pickerColor: state.text, //default color
+                pickerColor: state.theme["text"], //default color
                 onColorChanged: (Color color){ //on color picked
-                  BlocProvider.of<ThemeCubit>(context).updateText(color);
+                  BlocProvider.of<ThemeCubit>(context).updateTheme("text", color);
                 },
               ),
               ColorPicker(
-                pickerColor: state.accent, //default color
+                pickerColor: state.theme["accent"], //default color
                 onColorChanged: (Color color){ //on color picked
-                  BlocProvider.of<ThemeCubit>(context).updateAccent(color);
+                  BlocProvider.of<ThemeCubit>(context).updateTheme("accent", color);
                 },
               ),
             ]

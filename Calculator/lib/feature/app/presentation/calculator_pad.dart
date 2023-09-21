@@ -7,34 +7,13 @@ import 'CalculatorButton/calculatorbutton.dart';
 import 'package:hello_world/feature/app/domain/styling.dart' as styling;
 
 class CalculatorPad extends StatelessWidget {
-  Color main;
-  Color secondary;
-  Color accent;
-  Color text;
-
-  double borderRadius;
-  double borderWidth;
-
-  double buttonBlur;
-
-  double gridXAxisSpacing;
-  double gridYAxisSpacing;
+  final Map theme;
 
   CalculatorPad({super.key,
-    this.main=styling.originMain,
-    this.secondary=styling.originSecondary,
-    this.accent=styling.originAccent,
-    this.text = styling.originText,
-    this.gridYAxisSpacing=styling.gridYAxisSpacing,
-    this.gridXAxisSpacing=styling.gridXAxisSpacing,
-    this.buttonBlur=styling.buttonBlur,
-    this.borderRadius=styling.borderRadius,
-    this.borderWidth=styling.borderWidth,
-    //required this.isAutumnTheme,
-    //required this.isNeumorphismTheme,
-    //required this.showAdditionalButtons,
+    this.theme=styling.theme,
   }) {}
 
+  expressionProvider (context) =>  BlocProvider.of<CaluclatorExpressionCubit>(context);
   Function getCallbackByLabel(context, state, label) {
     Function callback;
     if (label == "⌫") {
@@ -45,94 +24,80 @@ class CalculatorPad extends StatelessWidget {
       };
     } else if ( label == "C" ){
       callback =() {
-        BlocProvider.of<CaluclatorExpressionCubit>(context).update("");
-        BlocProvider.of<CaluclatorExpressionCubit>(context).solve("");
+        expressionProvider(context).update("");
+        expressionProvider(context).solve("");
       };
     } else if ( label == "=" ) {
-      callback =() {
-        BlocProvider.of<CaluclatorExpressionCubit>(context).update(state.expression);
-        BlocProvider.of<CaluclatorExpressionCubit>(context).solve(state.expression);
+      callback = () {
+        expressionProvider(context).update(state.expression);
+        expressionProvider(context).solve(state.expression);
       };
     }else if (label == "×"){
       callback =() {
-        BlocProvider.of<CaluclatorExpressionCubit>(context).update(state.expression + "*");
+        expressionProvider(context).update(state.expression + "*");
       };
     } else if (label == "÷"){
       callback =() {
-        BlocProvider.of<CaluclatorExpressionCubit>(context).update(state.expression + "/");
+        expressionProvider(context).update(state.expression + "/");
       };
     }else {
       callback =() {
-        BlocProvider.of<CaluclatorExpressionCubit>(context).update(state.expression + label);
+        expressionProvider(context).update(state.expression + label);
       };
     }
     return callback;
   }
 
-  List<Widget> generateCalculatorButtons(oldcontext, oldstate) {
+  List<Widget> generateCalculatorButtons(context, state, globaltheme) {
     List<Widget> buttons = [];
     final List<String> additionalLabels = [..."()^√!".split(""), "tan", "cos", "sin"];
     final List<String> labels = [ ..."C%⌫÷789×456-123+".split(""), "00", "0", ",", "="];
 
-    if (oldstate.showAdditionalButtons) {
+    if (globaltheme["additional"]) {
       additionalLabels.forEach((label) {
         buttons.add(
-            BlocConsumer<CaluclatorExpressionCubit, CaluclatorExpressionState>(
-                listener: (context, stateCalculator) {},
-                builder: (context, state) {
-                  return CalculatorButton(
-                    title: label,
-                    callback: getCallbackByLabel(context, state, label),
-                    main: main,
-                    text: accent,
-                    buttonBlur: buttonBlur,
-                  );
-                }
+            CalculatorButtonThemed(
+              title: label,
+              callback: getCallbackByLabel(context, state, label),
+              theme: globaltheme,
             )
         );
       });
     }
 
-    int i = 0;
+    int counter = 0;
     labels.forEach((label) {
-      i +=1 ;
-      Color maincolor =  (i % 4 != 0) ? main : accent;
-      Color textcolor = (i % 4 != 0) ? text : main;
+      counter +=1 ;
+      Map currentTheme = Map.from(globaltheme);
+      currentTheme["main"] = (counter % 4 != 0) ? globaltheme["main"] : globaltheme["accent"];
+      currentTheme["text"] = (counter % 4 != 0) ? globaltheme["text"] : globaltheme["main"];
       buttons.add(
-          BlocConsumer<CaluclatorExpressionCubit, CaluclatorExpressionState>(
-              listener: (context, stateCalculator) {},
-              builder: (context, state) {
-                return CalculatorButton(
-                  title: label,
-                  callback: getCallbackByLabel(context, state, label),
-                  main: maincolor,
-                  text: textcolor,
-                  secondary: secondary,
-                  borderRadius: borderRadius,
-                  borderWidth: borderWidth,
-                );
-              }
-          )
+        CalculatorButtonThemed(
+          title: label,
+          callback: getCallbackByLabel(context, state, label),
+          theme: currentTheme,
+        )
       );
     });
 
     return buttons;
   }
 
+
+
   Widget build(BuildContext context) {
-    return
-      Expanded(
-        child:BlocBuilder<ThemeCubit, ThemeState>(
-            builder: (context, state) {
-              return GridView.count(
-                childAspectRatio: (state.gridRratio),
-                crossAxisCount: 4,
-                crossAxisSpacing: state.gridXAxisSpacing,
-                mainAxisSpacing: state.gridYAxisSpacing,
-                children: [...generateCalculatorButtons(context, state)],
-              );
-          },
-        ),
+    return BlocBuilder<CaluclatorExpressionCubit, CaluclatorExpressionState>(
+        builder: (context, state) {
+          return Expanded(
+            child: GridView.count(
+              childAspectRatio: theme["grid-ratio"],
+              crossAxisCount: 4,
+              crossAxisSpacing: theme["grid-horizontal-spacing"],
+              mainAxisSpacing: theme["grid-vertical-spacing"],
+              children: [...generateCalculatorButtons(context, state, theme)],
+            ),
+          );
+        }
     );
   }
 }

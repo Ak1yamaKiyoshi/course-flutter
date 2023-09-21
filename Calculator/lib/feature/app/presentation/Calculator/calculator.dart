@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hello_world/feature/app/domain/theme_cubit.dart';
-import 'package:hello_world/feature/app/presentation/CalculatorButton/CalculatorThemeChanger/calculator_theme_changer.dart';
+import 'package:hello_world/feature/app/presentation/CalculatorThemeChanger/calculator_theme_changer.dart';
 import 'package:hello_world/feature/app/presentation/calculator_input.dart';
 import 'package:hello_world/feature/app/presentation/calculator_pad.dart';
 import '../calculator_answer.dart';
@@ -41,40 +41,30 @@ class _CalculatorState extends State<Calculator> {
         builder: (context, state) {
           return Scaffold(
             body: Container(
-              color: state.main,
+              color: state.theme["main"],
               child: Column(
                 children: [
                   AppBar(
-                    backgroundColor: state.main,
+                    backgroundColor: state.theme["main"],
                   ),
                   CalculatoBodyConatiner(
                     [
-                      CalculatorInput(),
-                      CalculatorPad(
-                        main: state.main,
-                        secondary: state.secondary,
-                        accent: state.accent,
-                        text: state.text,
-                        borderRadius: state.borderRadius,
-                        borderWidth: state.borderWidth,
-                        buttonBlur: state.buttonBlur,
-                      )
+                      const CalculatorInput(),
+                      CalculatorPad(theme: state.theme)
                     ],
                   ),
                   ExpandablePanel(
-                    header: Text("Open settings"),
-                    collapsed: Text("open"),
+                    collapsed: const Text(""),
+                    header: const Text("settings"),
                     expanded: CalculatorThemeChanger(),
-                    //tapHea: true,
                   ) ,
-
                 ],
               ),
             ),
             bottomNavigationBar: Container(
-              padding: EdgeInsets.all(12),
+              padding: const EdgeInsets.all(12),
               height: 50.0,
-              color: state.main,
+              color: state.theme["main"],
               child: const Text('by Akiyama Kiyoshi',
                 textAlign: TextAlign.center,
                 style: TextStyle(
