@@ -1,61 +1,111 @@
 
+import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hello_world/feature/app/data/calulator_expression_cubit.dart';
-import './calculator_button.dart';
-
+import 'package:hello_world/feature/app/domain/expression_cubit.dart';
+import 'package:hello_world/feature/app/domain/theme_cubit.dart';
+import 'CalculatorButton/calculatorbutton.dart';
+import 'package:hello_world/feature/app/domain/styling.dart' as styling;
 
 class CalculatorPad extends StatelessWidget {
-  CalculatorPad({super.key}) {}
+  final Map theme;
 
-  final List<String> lables = [..."789456123".split(""), "00", "0", "+", "*", "/", "-", "X", "Enter", "AC"];
+  CalculatorPad({super.key,
+    this.theme=styling.theme,
+  }) {}
 
-  List<Widget> generateCalculatorButtons(context, state) {
+  expressionProvider (context) =>  BlocProvider.of<CaluclatorExpressionCubit>(context);
+  Function getCallbackByLabel(context, state, label) {
+    Function callback;
+    if (label == "⌫") {
+      callback = () {
+        BlocProvider.of<CaluclatorExpressionCubit>(context).update(
+          state.expression.substring(
+              0, state.expression.length - 1));
+      };
+    } else if ( label == "C" ){
+      callback =() {
+        expressionProvider(context).update("");
+        expressionProvider(context).solve("");
+      };
+
+    } else if ( label == "tan" || label == "cos" || label == "sin" ) {
+      callback =() {
+        expressionProvider(context).update(state.expression + label + "(");
+      };
+    } else if ( label == "=" ) {
+      callback = () {
+        expressionProvider(context).update(state.expression);
+        expressionProvider(context).solve(state.expression);
+      };
+    }else if (label == "×"){
+      callback =() {
+        expressionProvider(context).update(state.expression + "*");
+      };
+    } else if (label == "÷"){
+      callback =() {
+        expressionProvider(context).update(state.expression + "/");
+      };
+    }else {
+      callback =() {
+        expressionProvider(context).update(state.expression + label);
+      };
+    }
+    return callback;
+  }
+
+  List<Widget> generateCalculatorButtons(context, state, globaltheme) {
     List<Widget> buttons = [];
-    lables.forEach((label) {
-      buttons.add(
-          CalculatorButton(
+    final List<String> additionalLabels = [..."()^√!".split(""), "tan", "cos", "sin"];
+    final List<String> labels = [ ..."C%⌫÷789×456-123+".split(""), "00", "0", ".", "="];
+
+    if (globaltheme["additional"]) {
+      additionalLabels.forEach((label) {
+        buttons.add(
+            CalculatorButtonThemed(
               title: label,
-              callback: () {
-                if (label == "X") {
-                  BlocProvider.of<CaluclatorExpressionCubit>(context).update(
-                      state.expression.substring(
-                          0, state.expression.length - 1));
-                } else if ( label == "AC" ){
-                  BlocProvider.of<CaluclatorExpressionCubit>(context).update("");
-                  BlocProvider.of<CaluclatorExpressionCubit>(context).solve("");
-                } else if ( label == "Enter" ) {
-                  BlocProvider.of<CaluclatorExpressionCubit>(context).update(state.expression);
-                  BlocProvider.of<CaluclatorExpressionCubit>(context).solve(state.expression);
-                } else {
-                  BlocProvider.of<CaluclatorExpressionCubit>(context).update(state.expression + label);
-                }
-              }
-          ),
+              callback: getCallbackByLabel(context, state, label),
+              theme: globaltheme,
+            )
+        );
+      });
+    }
+
+    int counter = 0;
+    labels.forEach((label) {
+      counter +=1 ;
+      Map currentTheme = Map.from(globaltheme);
+      currentTheme["main"] = (counter % 4 != 0) ? globaltheme["main"] : globaltheme["accent"];
+      currentTheme["text"] = (counter % 4 != 0) ? globaltheme["text"] : globaltheme["main"];
+      buttons.add(
+        CalculatorButtonThemed(
+          title: label,
+          callback: getCallbackByLabel(context, state, label),
+          theme: currentTheme,
+        )
       );
     });
+
     return buttons;
   }
 
 
   Widget build(BuildContext context) {
-    return
-      Container(
-        height: 700,
-        child: BlocConsumer<
-            CaluclatorExpressionCubit,
-            CaluclatorExpressionState> (
-          listener: (context, state) { },
-          builder: (context, state) {
-            return GridView.count(
-              childAspectRatio: (150 / 100),
-              crossAxisCount: 3,
-              crossAxisSpacing: 10.0,
-              mainAxisSpacing: 10.0,
-              children: [...generateCalculatorButtons(context, state)],
-            );
-          },
-        ),
+    return BlocBuilder<CaluclatorExpressionCubit, CaluclatorExpressionState>(
+        builder: (context, state) {
+          return Expanded(
+            //height: (MediaQuery.of(context).size.height),
+            //width: ((MediaQuery.of(context).size.height/100)*43)%(MediaQuery.of(context).size.height/100*80),
+            child: GridView.count(
+              padding: const EdgeInsets.all(5),
+              childAspectRatio: theme["grid-ratio"],
+              crossAxisCount: 4,
+              crossAxisSpacing: theme["grid-horizontal-spacing"],
+              mainAxisSpacing: theme["grid-vertical-spacing"],
+              children: [...generateCalculatorButtons(context, state, theme)],
+            ),
+          );
+        }
     );
   }
 }

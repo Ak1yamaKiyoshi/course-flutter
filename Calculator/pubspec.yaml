@@ -38,6 +38,8 @@ dependencies:
   eval_ex: ^1.1.8
   flutter_bloc: ^8.1.3
   url_launcher: ^6.1.14
+  expandable: ^5.0.1
+  flutter_colorpicker: ^1.0.3
 
 dev_dependencies:
   flutter_test:

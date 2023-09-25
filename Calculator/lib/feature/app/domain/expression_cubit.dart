@@ -1,9 +1,9 @@
 import 'package:bloc/bloc.dart';
-import 'package:hello_world/feature/app/data/validation/expression.dart';
+import 'package:hello_world/feature/app/domain/validation/expression.dart';
 import 'package:meta/meta.dart';
 import 'package:eval_ex/expression.dart';
 
-part './calculator_expression_state.dart';
+part './expression_state.dart';
 
 class CaluclatorExpressionCubit extends Cubit<CaluclatorExpressionState> {
   ExpressionValidator validator =  new ExpressionValidator();
@@ -21,14 +21,14 @@ class CaluclatorExpressionCubit extends Cubit<CaluclatorExpressionState> {
     try {
       finalExpression = (exp.eval().toString());
     } on Exception catch (_) {
-      finalExpression =  expression;
+      finalExpression = expression;
     }
     return finalExpression;
   }
 
   String safeNewExpression(String newExpression) {
     String safeExpression;
-    if (validator.isValidExpression(newExpression))
+    if (true)//(validator.isValidExpression(newExpression))
       safeExpression = newExpression;
     else
       safeExpression = state.expression;
