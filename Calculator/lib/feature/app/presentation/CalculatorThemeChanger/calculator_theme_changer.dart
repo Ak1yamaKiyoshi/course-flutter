@@ -51,7 +51,6 @@ class _CalculatorThemeChangerState extends State<CalculatorThemeChanger>   {
           margin: EdgeInsets.all(10.0),
           child: ListView(
             children: [
-              Text("! У поточній версії калькулятору всі зміни теми, які ви робите, не зберігаються після його запуску. "),
               CalculatorThemeChangerSlider(
                   onChangeCallback: (value) {
                     BlocProvider.of<ThemeCubit>(context).updateTheme("border-radius", value);
@@ -108,11 +107,6 @@ class _CalculatorThemeChangerState extends State<CalculatorThemeChanger>   {
                 onChangeCallback: BlocProvider.of<ThemeCubit>(context).updateNeumorphism,
                 label: 'neumorphism',
                 valueToSwitch: (state.theme["neumorphism"] && true),
-              ),
-              CalculatorThemeChangerSwitch(
-                onChangeCallback: BlocProvider.of<ThemeCubit>(context).updateAdditional,
-                label: 'additional ( функції звідси ще не працюють )',
-                valueToSwitch: (state.theme["additional"] && true),
               ),
               Divider(height: 20,),
               CalculatorThemeChangerSliderText(text: state.theme["text"], label: " main color "),
