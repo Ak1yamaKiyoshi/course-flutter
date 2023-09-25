@@ -8,9 +8,7 @@ class CalculatorAnswer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: styling.fontSizeButtonSmall,
-      width: (MediaQuery.of(context).size.width/100)*80,
+    return Expanded(
       child: Text(text,
         textAlign: TextAlign.right,
         style: TextStyle(fontSize: styling.fontSizeInputSmall, color: theme["accent"]),

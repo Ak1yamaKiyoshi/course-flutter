@@ -15,7 +15,9 @@ class CalculatorButtonStyle {
     this.borderWidth=styling.borderWidth,
   });
 
-  bool hasBorder (borderWidth) { return (borderWidth > 0.0) ? true : false; }
+  bool hasBorder (borderWidth) {
+    return (borderWidth > 0.0) ? true : false;
+  }
 
   MaterialStateProperty<OutlinedBorder> withBorder() {
     return  MaterialStateProperty.all<RoundedRectangleBorder>(

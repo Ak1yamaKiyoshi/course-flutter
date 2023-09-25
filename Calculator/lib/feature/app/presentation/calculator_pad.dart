@@ -1,4 +1,5 @@
 
+import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hello_world/feature/app/domain/expression_cubit.dart';
@@ -26,6 +27,11 @@ class CalculatorPad extends StatelessWidget {
       callback =() {
         expressionProvider(context).update("");
         expressionProvider(context).solve("");
+      };
+
+    } else if ( label == "tan" || label == "cos" || label == "sin" ) {
+      callback =() {
+        expressionProvider(context).update(state.expression + label + "(");
       };
     } else if ( label == "=" ) {
       callback = () {
@@ -87,10 +93,11 @@ class CalculatorPad extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<CaluclatorExpressionCubit, CaluclatorExpressionState>(
         builder: (context, state) {
-          return SizedBox(
-            height: (MediaQuery.of(context).size.height),
-            width: ((MediaQuery.of(context).size.height/100)*43)%(MediaQuery.of(context).size.height/100*80),
+          return Expanded(
+            //height: (MediaQuery.of(context).size.height),
+            //width: ((MediaQuery.of(context).size.height/100)*43)%(MediaQuery.of(context).size.height/100*80),
             child: GridView.count(
+              padding: const EdgeInsets.all(5),
               childAspectRatio: theme["grid-ratio"],
               crossAxisCount: 4,
               crossAxisSpacing: theme["grid-horizontal-spacing"],

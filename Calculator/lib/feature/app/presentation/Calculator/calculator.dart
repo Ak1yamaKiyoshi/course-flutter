@@ -10,9 +10,11 @@ import 'package:hello_world/feature/app/presentation/calculator_pad.dart';
 import '../calculator_answer.dart';
 import 'package:hello_world/feature/app/domain/styling.dart' as styling;
 
+import '../calculatoradditional.dart';
+
 class CalculatoBodyConatiner extends StatelessWidget {
   final children;
-  const CalculatoBodyConatiner(this.children);
+  const CalculatoBodyConatiner(this.children, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -49,30 +51,18 @@ class _CalculatorState extends State<Calculator> {
                   ),
                   CalculatoBodyConatiner(
                     [
-                      const CalculatorInput(),
+                      CalculatorInput(theme: state.theme),
+                      AdditionalCalculatorButton(),
                       CalculatorPad(theme: state.theme)
                     ],
                   ),
               Container(color: state.theme["main"],
-                  child:
-                  ExpandablePanel(
+                  child: ExpandablePanel(
                     collapsed: const Text(""),
-                    header:   Text("settings", textAlign: TextAlign.center,),
+                    header:   Text("", textAlign: TextAlign.center,),
                     expanded: CalculatorThemeChanger(),
                   ) ,),
                 ],
-              ),
-            ),
-            bottomNavigationBar: Container(
-              padding: const EdgeInsets.all(12),
-              height: 50.0,
-              color: state.theme["main"],
-              child: const Text('by Akiyama Kiyoshi',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: styling.originMain,
-                  fontSize: styling.textFontSizeSmall,
-                ),
               ),
             ),
           );

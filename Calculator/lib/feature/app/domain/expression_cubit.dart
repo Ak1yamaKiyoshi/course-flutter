@@ -21,14 +21,14 @@ class CaluclatorExpressionCubit extends Cubit<CaluclatorExpressionState> {
     try {
       finalExpression = (exp.eval().toString());
     } on Exception catch (_) {
-      finalExpression =  expression;
+      finalExpression = expression;
     }
     return finalExpression;
   }
 
   String safeNewExpression(String newExpression) {
     String safeExpression;
-    if (validator.isValidExpression(newExpression))
+    if (true)//(validator.isValidExpression(newExpression))
       safeExpression = newExpression;
     else
       safeExpression = state.expression;
