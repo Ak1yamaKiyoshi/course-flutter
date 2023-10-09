@@ -8,11 +8,6 @@ import './feature/app/domain/expression_cubit.dart';
 
 void main() {
   runApp(const CalculatorApp());
-  final test = {
-    "main": Color(0x00ffffff),
-  };
-  test["main"];
-
 }
 
 class CalculatorApp extends StatelessWidget {

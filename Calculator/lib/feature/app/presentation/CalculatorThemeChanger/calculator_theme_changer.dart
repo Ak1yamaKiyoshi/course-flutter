@@ -47,17 +47,16 @@ class _CalculatorThemeChangerState extends State<CalculatorThemeChanger>   {
         return SizedBox(
           height: MediaQuery.of(context).size.height/3,
           child: Container(
-            color: state.theme["main"],
+            color: state.theme.t["main"],
           margin: EdgeInsets.all(10.0),
           child: ListView(
             children: [
-              Text("! У поточній версії калькулятору всі зміни теми, які ви робите, не зберігаються після його запуску. "),
               CalculatorThemeChangerSlider(
                   onChangeCallback: (value) {
                     BlocProvider.of<ThemeCubit>(context).updateTheme("border-radius", value);
                   },
                   label: "border radius",
-                  currentSliderValue: state.theme["border-radius"],
+                  currentSliderValue: state.theme.t["border-radius"],
                   minSliderValue: 0, maxSliderValue: 50,
               ),
               CalculatorThemeChangerSlider(
@@ -65,7 +64,7 @@ class _CalculatorThemeChangerState extends State<CalculatorThemeChanger>   {
                   BlocProvider.of<ThemeCubit>(context).updateTheme("border-width", value);
                 },
                 label: "border width",
-                currentSliderValue: state.theme["border-width"],
+                currentSliderValue: state.theme.t["border-width"],
                 minSliderValue: 0, maxSliderValue: 20,
               ),
               CalculatorThemeChangerSlider(
@@ -73,7 +72,7 @@ class _CalculatorThemeChangerState extends State<CalculatorThemeChanger>   {
                   BlocProvider.of<ThemeCubit>(context).updateTheme("button-blur", value/30);
                 },
                 label: "button blur",
-                currentSliderValue: state.theme["button-blur"]*30,
+                currentSliderValue: state.theme.t["button-blur"]*30,
                 minSliderValue: 0, maxSliderValue: 30,
               ),
               CalculatorThemeChangerSlider(
@@ -81,7 +80,7 @@ class _CalculatorThemeChangerState extends State<CalculatorThemeChanger>   {
                   BlocProvider.of<ThemeCubit>(context).updateTheme("grid-horizontal-spacing", value);
                 },
                 label: "grid x spacing ",
-                currentSliderValue: state.theme["grid-horizontal-spacing"],
+                currentSliderValue: state.theme.t["grid-horizontal-spacing"],
                 minSliderValue: 0, maxSliderValue: 150,
               ),
               CalculatorThemeChangerSlider(
@@ -89,7 +88,7 @@ class _CalculatorThemeChangerState extends State<CalculatorThemeChanger>   {
                   BlocProvider.of<ThemeCubit>(context).updateTheme("grid-vertical-spacing", value);
                 },
                 label: "y spacing",
-                currentSliderValue: state.theme["grid-vertical-spacing"],
+                currentSliderValue: state.theme.t["grid-vertical-spacing"],
                 minSliderValue: 0, maxSliderValue: 150,
               ),
               CalculatorThemeChangerSlider(
@@ -100,48 +99,43 @@ class _CalculatorThemeChangerState extends State<CalculatorThemeChanger>   {
                     }
                 },
                 label: "button ratio",
-                currentSliderValue: state.theme["grid-ratio"]*100,
+                currentSliderValue: state.theme.t["grid-ratio"]*100,
                 minSliderValue: 0,
                 maxSliderValue: 200,
               ),
               CalculatorThemeChangerSwitch(
                 onChangeCallback: BlocProvider.of<ThemeCubit>(context).updateNeumorphism,
                 label: 'neumorphism',
-                valueToSwitch: (state.theme["neumorphism"] && true),
-              ),
-              CalculatorThemeChangerSwitch(
-                onChangeCallback: BlocProvider.of<ThemeCubit>(context).updateAdditional,
-                label: 'additional ( функції звідси ще не працюють )',
-                valueToSwitch: (state.theme["additional"] && true),
+                valueToSwitch: (state.theme.t["neumorphism"] && true),
               ),
               Divider(height: 20,),
-              CalculatorThemeChangerSliderText(text: state.theme["text"], label: " main color "),
+              CalculatorThemeChangerSliderText(text: state.theme.t["text"], label: " main color "),
               ColorPicker(
-                pickerColor: state.theme["main"], //default color
+                pickerColor: state.theme.t["main"], //default color
                 onColorChanged: (Color color){ //on color picked
                   BlocProvider.of<ThemeCubit>(context).updateTheme("main", color);
                 },
               ),
               Divider(height: 20,),
-              CalculatorThemeChangerSliderText(text: state.theme["text"], label: " secondary ( border ) color "),
+              CalculatorThemeChangerSliderText(text: state.theme.t["text"], label: " secondary ( border ) color "),
               ColorPicker(
-                pickerColor: state.theme["secondary"], //default color
+                pickerColor: state.theme.t["secondary"], //default color
                 onColorChanged: (Color color){ //on color picked
                   BlocProvider.of<ThemeCubit>(context).updateTheme("secondary", color);
                 },
               ),
               Divider(height: 20,),
-              CalculatorThemeChangerSliderText(text: state.theme["text"], label: " text color "),
+              CalculatorThemeChangerSliderText(text: state.theme.t["text"], label: " text color "),
               ColorPicker(
-                pickerColor: state.theme["text"], //default color
+                pickerColor: state.theme.t["text"], //default color
                 onColorChanged: (Color color){ //on color picked
                   BlocProvider.of<ThemeCubit>(context).updateTheme("text", color);
                 },
               ),
               Divider(height: 20,),
-              CalculatorThemeChangerSliderText(text: state.theme["text"], label: " accent color "),
+              CalculatorThemeChangerSliderText(text: state.theme.t["text"], label: " accent color "),
               ColorPicker(
-                pickerColor: state.theme["accent"], //default color
+                pickerColor: state.theme.t["accent"], //default color
                 onColorChanged: (Color color){ //on color picked
                   BlocProvider.of<ThemeCubit>(context).updateTheme("accent", color);
                 },

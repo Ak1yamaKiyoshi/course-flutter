@@ -1,11 +1,10 @@
 
-
 part of 'theme_cubit.dart';
 
 class ThemeState {
-  Map theme;
+  ThemeMap theme;
 
   ThemeState({
-    this.theme= styling.theme,
+    this.theme = const ThemeMap(theme: styling.theme),
   });
 }

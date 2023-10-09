@@ -23,7 +23,7 @@ class AdditionalCalculatorButton extends StatelessWidget {
                 style: ButtonStyle(
                 backgroundColor: MaterialStatePropertyAll<Color>(theme["main"])
               ),
-              onPressed: () {BlocProvider.of<ThemeCubit>(context).updateAdditional(!state.theme["additional"]); },
+              onPressed: () {BlocProvider.of<ThemeCubit>(context).updateAdditional(!state.theme.t["additional"]); },
               child: Text(
                 "more",
                 textAlign: TextAlign.center,
