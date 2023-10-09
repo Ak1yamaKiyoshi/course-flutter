@@ -43,23 +43,23 @@ class _CalculatorState extends State<Calculator> {
         builder: (context, state) {
           return Scaffold(
             body: Container(
-              color: state.theme["main"],
+              color: state.theme.main,
               child: Column(
                 children: [
                   AppBar(
-                    backgroundColor: state.theme["main"],
+                    backgroundColor: state.theme.main,
                   ),
                   CalculatoBodyConatiner(
                     [
-                      CalculatorInput(theme: state.theme),
+                      CalculatorInput(theme: state.theme.t),
                       AdditionalCalculatorButton(),
-                      CalculatorPad(theme: state.theme)
+                      CalculatorPad(theme: state.theme.t)
                     ],
                   ),
-              Container(color: state.theme["main"],
+              Container(color: state.theme.main,
                   child: ExpandablePanel(
                     collapsed: const Text(""),
-                    header:   Text("", textAlign: TextAlign.center,),
+                    header:   const Text("", textAlign: TextAlign.center,),
                     expanded: CalculatorThemeChanger(),
                   ) ,),
                 ],
